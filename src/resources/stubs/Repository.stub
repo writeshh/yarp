@@ -1,0 +1,61 @@
+<?php
+
+
+namespace App\Repositories;
+
+use App\{{modelName}};
+use Writeshh\Yarp\Contracts\RepositoryInterface;
+
+
+class {{modelName}}Repository implements RepositoryInterface
+{
+    /**
+     * Get all records
+     *
+     * @return void
+     */
+    public function all() {
+        return {{modelName}}::all();
+    }
+
+    /**
+     * Get a record by it's ID
+     *
+     * @param string|int $id
+     * @return void
+     */
+    public function show(string|int $id) {
+        return {{modelName}}::find($id);
+    }
+
+    /**
+     * Create a record
+     *
+     * @param array $data
+     * @return void
+     */
+    public function create(array $data) {
+        {{modelName}}::find($id)->create($data);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array $data
+     * @param string|int $id
+     * @return void
+     */
+    public function update(array $data, string|int $id) {
+        {{modelName}}::find($id)->update($data);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string|int $id
+     * @return void
+     */
+    public function delete(string|int $id) {
+        {{modelName}}::destroy($id);
+    }
+}

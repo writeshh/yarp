@@ -1,0 +1,57 @@
+{
+  "name": "writeshh/yarp",
+  "description": "Yet Another Repository Pattern, my take on Repository Design Pattern.",
+  "keywords": [
+    "writeshh",
+    "yarp",
+    "repository",
+    "service",
+    "design",
+    "pattern"
+  ],
+  "homepage": "https://github.com/writeshh/yarp",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Ritesh Shrestha",
+      "email": "shrestha.ritesh@hotmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.4|^8.0",
+    "illuminate/support": "^8.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^6.0",
+    "phpunit/phpunit": "^9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Writeshh\\Yarp\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Writeshh\\Yarp\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Writeshh\\Yarp\\YarpServiceProvider"
+      ],
+      "aliases": {
+        "Yarp": "Writeshh\\Yarp\\Facades\\RepositoryPattern"
+      }
+    }
+  }
+}
