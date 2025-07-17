@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Models\{{modelName}};
+use Writeshh\Yarp\BaseRepository;
+
+class {{modelName}}Repository extends BaseRepository
+{
+    /**
+     * {{modelName}}Repository constructor.
+     * 
+     * @param {{modelName}} $model
+     */
+    public function __construct({{modelName}} $model)
+    {
+        parent::__construct($model);
+    }
+    
+    /**
+     * Add custom repository methods here
+     */
+}

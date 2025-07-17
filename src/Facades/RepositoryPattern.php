@@ -1,6 +1,6 @@
 <?php
 
-namespace Writeshh\Yarp\Contracts\Facades;
+namespace Writeshh\Yarp\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

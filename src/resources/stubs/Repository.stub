@@ -3,7 +3,7 @@
 
 namespace App\Repositories;
 
-use App\{{modelName}};
+use App\Models\{{modelName}};
 use Writeshh\Yarp\Contracts\RepositoryInterface;
 
 
@@ -35,7 +35,7 @@ class {{modelName}}Repository implements RepositoryInterface
      * @return void
      */
     public function create(array $data) {
-        {{modelName}}::find($id)->create($data);
+        return {{modelName}}::create($data);
     }
 
     /**
