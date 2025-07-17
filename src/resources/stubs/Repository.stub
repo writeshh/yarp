@@ -1,61 +1,126 @@
 <?php
 
-
 namespace App\Repositories;
 
 use App\Models\{{modelName}};
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Writeshh\Yarp\Contracts\RepositoryInterface;
-
 
 class {{modelName}}Repository implements RepositoryInterface
 {
     /**
      * Get all records
      *
-     * @return void
+     * @return Collection
      */
-    public function all() {
+    public function all(): Collection {
         return {{modelName}}::all();
     }
 
     /**
+     * Get paginated records
+     *
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function paginate(int $perPage = 15): LengthAwarePaginator {
+        return {{modelName}}::paginate($perPage);
+    }
+    
+    /**
      * Get a record by it's ID
      *
      * @param string|int $id
-     * @return void
+     * @return Model|null
      */
-    public function show(string|int $id) {
+    public function show(string|int $id): ?Model {
         return {{modelName}}::find($id);
     }
 
     /**
+     * Get a record by it's ID or fail
+     *
+     * @param string|int $id
+     * @return Model
+     */
+    public function findOrFail(string|int $id): Model {
+        return {{modelName}}::findOrFail($id);
+    }
+    
+    /**
      * Create a record
      *
      * @param array $data
-     * @return void
+     * @return Model
      */
-    public function create(array $data) {
+    public function create(array $data): Model {
         return {{modelName}}::create($data);
     }
 
     /**
-     * Undocumented function
+     * Update a record
      *
      * @param array $data
      * @param string|int $id
-     * @return void
+     * @return bool
      */
-    public function update(array $data, string|int $id) {
-        {{modelName}}::find($id)->update($data);
+    public function update(array $data, string|int $id): bool {
+        $model = {{modelName}}::find($id);
+        if (!$model) {
+            return false;
+        }
+        return $model->update($data);
     }
 
     /**
-     * Undocumented function
+     * Delete a record
      *
      * @param string|int $id
-     * @return void
+     * @return bool
      */
-    public function delete(string|int $id) {
-        {{modelName}}::destroy($id);
+    public function delete(string|int $id): bool {
+        return {{modelName}}::destroy($id) > 0;
+    }
+    
+    /**
+     * Get model instance
+     *
+     * @return Model
+     */
+    public function getModel(): Model {
+        return new {{modelName}}();
+    }
+    
+    /**
+     * Get a query builder instance
+     *
+     * @return Builder
+     */
+    public function query(): Builder {
+        return {{modelName}}::query();
+    }
+    
+    /**
+     * Get records based on where condition
+     * 
+     * @param string $column
+     * @param mixed $value
+     * @return Collection
+     */
+    public function findWhere(string $column, mixed $value): Collection {
+        return {{modelName}}::where($column, $value)->get();
+    }
+    
+    /**
+     * Get records with given relations
+     * 
+     * @param array $relations
+     * @return Collection
+     */
+    public function with(array $relations): Collection {
+        return {{modelName}}::with($relations)->get();
     }
 }

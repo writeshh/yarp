@@ -19,5 +19,17 @@ class {{modelName}}Repository extends BaseRepository
     
     /**
      * Add custom repository methods here
+     * 
+     * Examples:
+     * 
+     * public function findByUsername(string $username)
+     * {
+     *     return $this->model->where('username', $username)->first();
+     * }
+     * 
+     * public function getActiveUsers()
+     * {
+     *     return $this->model->where('active', true)->get();
+     * }
      */
 }
