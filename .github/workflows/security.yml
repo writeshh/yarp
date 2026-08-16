@@ -32,5 +32,20 @@ jobs:
       - name: Install dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
 
+      # Packagist's advisory API occasionally times out against Composer's 10s
+      # HTTP window. Retry before failing, so a transient blip does not red the
+      # badge — but still fail if it never answers, rather than reporting a
+      # clean audit that never actually ran.
       - name: Audit dependencies
-        run: composer audit --no-interaction
+        run: |
+          for attempt in 1 2 3; do
+            if composer audit --no-interaction; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              echo "::warning::composer audit attempt ${attempt} failed; retrying in $((attempt * 15))s"
+              sleep $((attempt * 15))
+            fi
+          done
+          echo "::error::composer audit did not succeed after 3 attempts"
+          exit 1
