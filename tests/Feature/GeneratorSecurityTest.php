@@ -88,6 +88,13 @@ class GeneratorSecurityTest extends GeneratorTestCase
     #[Test]
     public function it_does_not_create_world_writable_directories(): void
     {
+        // Windows has no POSIX permission bits: PHP ignores mkdir()'s mode
+        // argument there and fileperms() always reports 0777 for a directory,
+        // so this assertion is only meaningful on POSIX filesystems.
+        if (DIRECTORY_SEPARATOR === '\\') {
+            $this->markTestSkipped('POSIX permission bits do not exist on Windows.');
+        }
+
         $this->generator()->generate('User');
 
         $directory = $this->workspace.'/app/Repositories';
