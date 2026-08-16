@@ -1,126 +1,31 @@
 <?php
 
-namespace App\Repositories;
+declare(strict_types=1);
 
-use App\Models\{{modelName}};
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Writeshh\Yarp\Contracts\RepositoryInterface;
+namespace {{ namespace }};
 
-class {{modelName}}Repository implements RepositoryInterface
+use {{ interfaceFqcn }};
+use {{ modelFqcn }};
+use Writeshh\Yarp\BaseRepository;
+
+/**
+ * @extends BaseRepository<{{ model }}>
+ */
+class {{ class }} extends BaseRepository implements {{ interface }}
 {
-    /**
-     * Get all records
-     *
-     * @return Collection
-     */
-    public function all(): Collection {
-        return {{modelName}}::all();
+    public function __construct({{ model }} $model)
+    {
+        parent::__construct($model);
     }
 
-    /**
-     * Get paginated records
+    /*
+     * Add query methods specific to {{ model }} here. Inside the repository you
+     * have the fluent constraint API and, for anything it does not cover,
+     * $this->newQuery() for a raw Eloquent builder.
      *
-     * @param int $perPage
-     * @return LengthAwarePaginator
+     * public function active(): \Illuminate\Database\Eloquent\Collection
+     * {
+     *     return $this->where('active', true)->latest()->get();
+     * }
      */
-    public function paginate(int $perPage = 15): LengthAwarePaginator {
-        return {{modelName}}::paginate($perPage);
-    }
-    
-    /**
-     * Get a record by it's ID
-     *
-     * @param string|int $id
-     * @return Model|null
-     */
-    public function show(string|int $id): ?Model {
-        return {{modelName}}::find($id);
-    }
-
-    /**
-     * Get a record by it's ID or fail
-     *
-     * @param string|int $id
-     * @return Model
-     */
-    public function findOrFail(string|int $id): Model {
-        return {{modelName}}::findOrFail($id);
-    }
-    
-    /**
-     * Create a record
-     *
-     * @param array $data
-     * @return Model
-     */
-    public function create(array $data): Model {
-        return {{modelName}}::create($data);
-    }
-
-    /**
-     * Update a record
-     *
-     * @param array $data
-     * @param string|int $id
-     * @return bool
-     */
-    public function update(array $data, string|int $id): bool {
-        $model = {{modelName}}::find($id);
-        if (!$model) {
-            return false;
-        }
-        return $model->update($data);
-    }
-
-    /**
-     * Delete a record
-     *
-     * @param string|int $id
-     * @return bool
-     */
-    public function delete(string|int $id): bool {
-        return {{modelName}}::destroy($id) > 0;
-    }
-    
-    /**
-     * Get model instance
-     *
-     * @return Model
-     */
-    public function getModel(): Model {
-        return new {{modelName}}();
-    }
-    
-    /**
-     * Get a query builder instance
-     *
-     * @return Builder
-     */
-    public function query(): Builder {
-        return {{modelName}}::query();
-    }
-    
-    /**
-     * Get records based on where condition
-     * 
-     * @param string $column
-     * @param mixed $value
-     * @return Collection
-     */
-    public function findWhere(string $column, mixed $value): Collection {
-        return {{modelName}}::where($column, $value)->get();
-    }
-    
-    /**
-     * Get records with given relations
-     * 
-     * @param array $relations
-     * @return Collection
-     */
-    public function with(array $relations): Collection {
-        return {{modelName}}::with($relations)->get();
-    }
 }

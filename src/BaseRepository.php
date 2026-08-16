@@ -1,153 +1,53 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Writeshh\Yarp;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Writeshh\Yarp\Concerns\InteractsWithRepository;
 use Writeshh\Yarp\Contracts\RepositoryInterface;
 
+/**
+ * A batteries-included Eloquent repository.
+ *
+ * Extend this class and type-hint your model in the constructor:
+ *
+ *     class UserRepository extends BaseRepository
+ *     {
+ *         public function __construct(User $model)
+ *         {
+ *             parent::__construct($model);
+ *         }
+ *     }
+ *
+ * Every method lives in {@see InteractsWithRepository}; this class only adds the
+ * constructor. If you would rather not inherit from a package class, use that
+ * trait directly instead.
+ *
+ * @template TModel of Model
+ *
+ * @uses InteractsWithRepository<TModel>
+ *
+ * @implements RepositoryInterface<TModel>
+ */
 abstract class BaseRepository implements RepositoryInterface
 {
+    /** @use InteractsWithRepository<TModel> */
+    use InteractsWithRepository;
+
     /**
-     * @var Model
+     * The model the repository wraps.
+     *
+     * @var TModel
      */
     protected Model $model;
-    
+
     /**
-     * BaseRepository constructor.
-     *
-     * @param Model $model
+     * @param  TModel  $model
      */
     public function __construct(Model $model)
     {
         $this->model = $model;
-    }
-    
-    /**
-     * Get all records
-     *
-     * @return Collection
-     */
-    public function all(): Collection
-    {
-        return $this->model->all();
-    }
-    
-    /**
-     * Get paginated records
-     *
-     * @param int $perPage
-     * @return LengthAwarePaginator
-     */
-    public function paginate(int $perPage = 15): LengthAwarePaginator
-    {
-        return $this->model->paginate($perPage);
-    }
-    
-    /**
-     * Get a record by it's ID
-     *
-     * @param string|int $id
-     * @return Model|null
-     */
-    public function show(string|int $id): ?Model
-    {
-        return $this->model->find($id);
-    }
-    
-    /**
-     * Get a record by it's ID or fail
-     *
-     * @param string|int $id
-     * @return Model
-     */
-    public function findOrFail(string|int $id): Model
-    {
-        return $this->model->findOrFail($id);
-    }
-    
-    /**
-     * Create a record
-     *
-     * @param array $data
-     * @return Model
-     */
-    public function create(array $data): Model
-    {
-        return $this->model->create($data);
-    }
-    
-    /**
-     * Update a record
-     *
-     * @param array $data
-     * @param string|int $id
-     * @return bool
-     */
-    public function update(array $data, string|int $id): bool
-    {
-        $record = $this->model->find($id);
-        
-        if (!$record) {
-            return false;
-        }
-        
-        return $record->update($data);
-    }
-    
-    /**
-     * Delete a record
-     *
-     * @param string|int $id
-     * @return bool
-     */
-    public function delete(string|int $id): bool
-    {
-        return $this->model->destroy($id) > 0;
-    }
-    
-    /**
-     * Get model instance
-     *
-     * @return Model
-     */
-    public function getModel(): Model
-    {
-        return $this->model;
-    }
-    
-    /**
-     * Get a query builder instance
-     *
-     * @return Builder
-     */
-    public function query(): Builder
-    {
-        return $this->model->newQuery();
-    }
-    
-    /**
-     * Get records based on where condition
-     * 
-     * @param string $column
-     * @param mixed $value
-     * @return Collection
-     */
-    public function findWhere(string $column, mixed $value): Collection
-    {
-        return $this->model->where($column, $value)->get();
-    }
-    
-    /**
-     * Get records with given relations
-     * 
-     * @param array $relations
-     * @return Collection
-     */
-    public function with(array $relations): Collection
-    {
-        return $this->model->with($relations)->get();
     }
 }

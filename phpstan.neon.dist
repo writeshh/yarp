@@ -1,0 +1,44 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 6
+
+    paths:
+        - src
+        - config
+
+    treatPhpDocTypesAsCertain: false
+
+    # Every entry below is a limitation of generic inference over Eloquent, not a
+    # defect. Each is pinned to one identifier in one file so a genuine error of
+    # the same shape elsewhere still fails the build.
+    ignoreErrors:
+        # Model::newQuery() is declared as Builder<static>. When the receiver is a
+        # template-typed expression (TModel of Model), PHPStan collapses `static`
+        # to the template bound, so every builder the repository creates is seen
+        # as Builder<Model> rather than Builder<TModel>. The runtime type is the
+        # concrete model; only the inference is lossy.
+        -
+            identifier: return.type
+            path: src/Concerns/InteractsWithRepository.php
+            count: 3
+
+        # restore() and getDeletedAtColumn() come from the SoftDeletes trait.
+        # Traits are not types, so there is no way to express "TModel, and it is
+        # soft-deletable" in a signature. Both call sites are reached only after
+        # usesSoftDeletes() has confirmed the trait is present, and
+        # SoftDeleteTest covers both the supported and unsupported models.
+        -
+            identifier: method.notFound
+            path: src/Concerns/InteractsWithRepository.php
+            count: 2
+
+        # Larastan types Builder::chunk()'s callback parameter with its own
+        # collection-of<TModel> pseudo-type, which is not considered identical to
+        # the Collection<int, TModel> that the docblock advertises. The docblock
+        # is kept in the more portable form because IDEs understand it.
+        -
+            identifier: argument.type
+            path: src/Concerns/InteractsWithRepository.php
+            count: 2

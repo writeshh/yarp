@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use {{ modelFqcn }};
+use Writeshh\Yarp\Contracts\RepositoryInterface;
+
+/**
+ * Type-hint this interface rather than the concrete repository. The binding in
+ * your RepositoryServiceProvider resolves it, which is what lets you swap in a
+ * fake implementation in tests.
+ *
+ * @extends RepositoryInterface<{{ model }}>
+ */
+interface {{ interface }} extends RepositoryInterface
+{
+    /*
+     * Declare any {{ model }}-specific methods your repository adds, so callers
+     * can rely on them through the interface.
+     *
+     * public function active(): \Illuminate\Database\Eloquent\Collection;
+     */
+}

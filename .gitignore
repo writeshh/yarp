@@ -1,2 +1,10 @@
 /vendor
+/coverage
+/build
+/.phpunit.cache
+/composer.phar
+.phpunit.result.cache
 .DS_Store
+Thumbs.db
+phpstan.neon
+phpunit.xml.bak

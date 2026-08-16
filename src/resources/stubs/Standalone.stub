@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use {{ interfaceFqcn }};
+use {{ modelFqcn }};
+use Writeshh\Yarp\Concerns\InteractsWithRepository;
+
+/**
+ * Implements the repository contract without inheriting from a package class:
+ * the behaviour arrives via a trait instead, so this class is free to extend
+ * whatever it likes.
+ *
+ * @implements {{ interface }}<{{ model }}>
+ */
+class {{ class }} implements {{ interface }}
+{
+    /** @use InteractsWithRepository<{{ model }}> */
+    use InteractsWithRepository;
+
+    public function __construct(
+        protected {{ model }} $model,
+    ) {}
+
+    /*
+     * Add query methods specific to {{ model }} here.
+     *
+     * public function active(): \Illuminate\Database\Eloquent\Collection
+     * {
+     *     return $this->where('active', true)->latest()->get();
+     * }
+     */
+}

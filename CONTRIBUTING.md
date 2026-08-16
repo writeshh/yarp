@@ -2,54 +2,75 @@
 
 Contributions are **welcome** and will be fully **credited**.
 
-Please read and understand the contribution guide before creating an issue or pull request.
+## Getting set up
+
+```bash
+git clone https://github.com/writeshh/yarp.git
+cd yarp
+composer install
+composer test
+```
+
+You need PHP 8.3 or newer. See [TESTING.md](TESTING.md) for how the suite is
+arranged and how to run it against other supported Laravel versions.
+
+## Before you open a pull request
+
+Run the same checks CI does:
+
+```bash
+composer check
+```
+
+That is `format-check` (Pint), `analyse` (PHPStan level 6) and `test` (PHPUnit).
+All three must pass.
+
+| Command | What it does |
+|---|---|
+| `composer format` | Applies Pint fixes |
+| `composer analyse` | PHPStan level 6 over `src` and `config` |
+| `composer test` | The full suite |
+| `composer audit` | Checks dependencies for known advisories |
+
+## What we ask for
+
+- **Tests.** A patch without tests will not be merged. Bug fixes should include a
+  test that fails before the fix.
+- **Both repository flavours stay in step.** New repository methods go in
+  `src/Concerns/InteractsWithRepository.php` and on `RepositoryInterface`. Add
+  coverage to `tests/Unit/RepositoryBehaviourTestCase.php`, which runs against
+  both `BaseRepository` and the standalone trait.
+- **No new PHPStan ignores** without an explanation. The existing entries in
+  `phpstan.neon.dist` each document why the report is a limitation of generic
+  inference over Eloquent rather than a defect. If you add one, say why in the
+  same style, and scope it to a single identifier and file.
+- **Documentation.** Update the README's method tables and add a `CHANGELOG.md`
+  entry under `Unreleased`.
+- **SemVer.** Breaking changes need a major release and an `UPGRADE.md` entry
+  showing before and after.
+- **One pull request per feature**, with a coherent commit history.
+
+## Code style
+
+Laravel Pint with the `laravel` preset, plus `declare(strict_types=1)` in every
+file. `composer format` handles it — do not hand-format.
+
+## Reporting bugs
+
+Include the PHP and Laravel versions, the YARP version, what you expected, what
+happened, and a minimal reproduction. Check existing issues and open pull
+requests first.
+
+For **security** issues, do not open a public issue — see
+[SECURITY.md](SECURITY.md).
 
 ## Etiquette
 
-This project is open source, and as such, the maintainers give their free time to build and maintain the source code
-held within. They make the code freely available in the hope that it will be of use to other developers. It would be
-extremely unfair for them to suffer abuse or anger for their hard work.
+Maintainers give their free time to this project and make it freely available in
+the hope it is useful. Please be considerate when raising issues or presenting
+pull requests, and respect a maintainer's decision if a submission is not used.
 
-Please be considerate towards maintainers when raising issues or presenting pull requests. Let's show the
-world that developers are civilized and selfless people.
+When proposing a feature, consider whether it is likely to be useful to other
+users of the package, not only in your own application.
 
-It's the duty of the maintainer to ensure that all submissions to the project are of sufficient
-quality to benefit the project. Many developers have different skillsets, strengths, and weaknesses. Respect the maintainer's decision, and do not be upset or abusive if your submission is not used.
-
-## Viability
-
-When requesting or submitting new features, first consider whether it might be useful to others. Open
-source projects are used by many developers, who may have entirely different needs to your own. Think about
-whether or not your feature is likely to be used by other users of the project.
-
-## Procedure
-
-Before filing an issue:
-
-- Attempt to replicate the problem, to ensure that it wasn't a coincidental incident.
-- Check to make sure your feature suggestion isn't already present within the project.
-- Check the pull requests tab to ensure that the bug doesn't have a fix in progress.
-- Check the pull requests tab to ensure that the feature isn't already in progress.
-
-Before submitting a pull request:
-
-- Check the codebase to ensure that your feature doesn't already exist.
-- Check the pull requests to ensure that another person hasn't already submitted the feature or fix.
-
-## Requirements
-
-If the project maintainer has any additional requirements, you will find them listed here.
-
-- **[PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)** - The easiest way to apply the conventions is to install [PHP Code Sniffer](https://pear.php.net/package/PHP_CodeSniffer).
-
-- **Add tests!** - Your patch won't be accepted if it doesn't have tests.
-
-- **Document any change in behaviour** - Make sure the `README.md` and any other relevant documentation are kept up-to-date.
-
-- **Consider our release cycle** - We try to follow [SemVer v2.0.0](https://semver.org/). Randomly breaking public APIs is not an option.
-
-- **One pull request per feature** - If you want to do more than one thing, send multiple pull requests.
-
-- **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash them](https://www.git-scm.com/book/en/v2/Git-Tools-Rewriting-History#Changing-Multiple-Commit-Messages) before submitting.
-
-**Happy coding**!
+**Happy coding!**
